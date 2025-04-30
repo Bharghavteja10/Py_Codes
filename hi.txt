@@ -1,0 +1,116 @@
+Slide 1
+	• Good [evening] everyone! Thank you for being here today. So Today We are going to have a presentation on AXI Protocol on a basic Introductary level . I'm Bhargav Teja, and I’ll be presenting alongside with Anmisha Nethra. Hope you all are ready.
+	
+Slide 2
+	• Basicallly these all are the topics that we both are going to cover today. At the end, we both would love to hear your thoughts and answer your questions perataining to our presentation.
+	
+Slide 3
+	• So Are high-speed communication protocols critically necessary in modern computing systems? So did ARM achieve this at hardware level ? For meeting the standards and demands of current fast paced world the AXI protocol was Introduced. It was in 2003, in the AMBA4 spec.
+	• AMBA defination
+	• AXI - 
+	Supporting high-frequency devices implies AXI can operate effectively in systems with faster clock speeds, ensuring timely data processing.
+	
+Slide 4
+	• Now lets see how axi got developed, 
+	• AMBA 1 - Low perforance APB
+	• AMBA 2 - AHB
+	• AMBA 3 - we will be looking further about all these
+	• AMBA 4 - need for multi core and multi processing systems arose - and even there was a need for cache coherecy 
+	• What is this cache coherency - 
+	For systems designed to have multiple cores, multiple shared memories we have to ensure consistency in data across multiple caches within the system.
+	Here's the problem when one component updates the data in its cache, the same data in other caches might become outdated or inconsistent. So for having a conistency in data we need cache coherent systems.
+	Now for solving this problem ARM introduced ACE, …….
+	AXI4, AXI4-Lite, AXI Stream
+	• AMBA 5 - CHI
+	• The AXI protocol is designed to be both backward-compatible with older AMBA protocols and forward-compatible with newer versions, ensuring seamless integration across different generations of ARM-based systems.
+	• AXI maintains interoperability with earlier versions, Devices using APB (low-speed peripherals like timers, UART, GPIO) can interact with AXI masters via AXI-APB bridges.
+	• AXI continues to support advanced systems in newer AMBA versions like AXI lite, AXI stream and coherency features
+
+
+Slide 5
+	• These are some of the major keywords whose meaning one must be aware of, to be able to understand the specification details
+	
+	• MANAGER(master) - is always the initiator of transactions,
+	• Subordinate(Slave) - simply responds to master requests
+	• interface - interface refers to the defined communication boundary between two components. It specifies how signals, data, and control flow between them.
+	• Interconnect  - An interconnect is a broader connection structure that links multiple interfaces together. It manages data routing and arbitration between multiple masters and slaves
+	
+	• Transaction - Set of transfers required for an AXI Manager to communicate with an AXI Subordinate
+	                         A communication process involving request and response between master and slave
+	• Upstream - Refers to the direction toward the initiator (master)
+		Read Data (RDATA), Response Signals (RRESP, BRESP)
+	• Downstream - Refers to the direction away from the initiator (master)
+		Address Signals (AWADDR, ARADDR), Write Data (WDATA), Control Signals (AWVALID, ARVALID)
+
+	• Beat – Single data transfer
+	• Burst : Multiple data(beat) transfers grouped together for efficiency. 
+	• Address Phase: The phase where the master provides the address before data transfer.
+	• Data Phase: The phase where actual data is transferred.
+	
+	
+Slide 6
+	• Here are some of the key features of AXI Protocol - This adaptability ensures AXI remains a key protocol for high-performance computing, while continuing to integrate legacy and future AMBA architectures
+
+	High-performance, high-frequency system designs, with low latency 
+	
+	Separate Read & Write Channels - multiple memories read and write, apb compare
+	
+	Burst-based transactions - Burst means, 3 modes Fixed - FIFO buffer, INCR READ/Write to DRAM, WRAP - Cache
+	
+	Out of Order Transaction - out-of-order transactions occur when responses to requests do not follow the exact sequence in which they were issued. This is useful for optimizing performance
+	Writing into memory and reading from cache- which fast, 
+	
+	Transaction ID for Out of Order processsing - CPU that sends multiple requests to memory - varying memory access speeds - ensures correct execution order - data consistency and proper execution flow
+	
+	Cache Coherency Support - 
+	Core A writes updated data to memory.
+	Core B reads the same memory location.
+	Without coherence, Core B might get outdated data.
+	With ACE, Core B gets the latest value via snooping.
+	
+	QoS (Quality of Service) - priority based transactions
+	
+	Unaligned data transfers using byte strobes.
+	The write strobes (WSTRB) signal specifies which bytes in the data bus contain valid information.
+	It allows transferring only specific bytes while ignoring unused ones.
+	This is useful for partial word transfers, preventing unnecessary data overwrites.
+	Unused bytes remain unchanged, avoiding unnecessary modifications.
+	
+	Atomic Transactions – Multi-Thread Processes
+	
+	Multi Master & Multi Slave Architecture
+	
+	Pipelining
+	
+Slide 7
+	• Transactions-based and defines five independent channels:
+		○ Write request, AW.
+		○ Write data, W.
+		○ Write response, B.
+		○ Read request, AR.
+		○ Read data, R
+	• Each channel - set of information signals and VALID and READY and LAST
+	 - provide a two-way handshake mechanism
+		○ VALID - source
+		show when valid address, data, or control information is
+		available on the channel
+		○ READY - destination
+		show when it can accept the information
+		○ LAST - both source and destination
+		indicate the transfer of the
+		final data item in a transaction.
+		
+Slide 8
+
+In write we send data from master to slave and response from slave t master but in read data and response both comes from the salve itself so this mechanism grwtaky helps in increasing the speed,
+both sending data and confirming that the data was successfully stored. This requires an extra response mechanism
+no modification is happening—the system just requests and retrieves data. So, it doesn't require extra confirmation. 
+
+Slide 14
+
+	AXI 5 specification, snoop channels are primarily used to transport Distributed Virtual Memory (DVM) messages, which are essential for managing system-wide coherency and memory attributes. These snoop channels act as a bridge for communicating with ACE (AXI Coherency Extensions), enabling coherent transactions and snoop operations
+	Distributed Virtual Memory (DVM) messages are used in the AXI Coherency Extensions (ACE) to manage system-wide coherency and memory attributes in multi-core systems.
+
+
+
+AXI supports variable dat a widths ranging from 8-bit (1 byte) to 1024-bit (128
